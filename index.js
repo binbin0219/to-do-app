@@ -46,7 +46,8 @@ app.get('/', async (req, res) => {
             res.status(401).json({message: "user not authorized!"})
             :
             user = await db.query("SELECT * FROM users WHERE user_id = $1", [decodedToken.userid]);
-            tasks = await db.query("SELECT * FROM tasks WHERE user_id = $1", [decodedToken.userid]);
+            tasks = await db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY task_id", [decodedToken.userid]);
+            console.log(tasks.rows)
             res.render("todo.ejs", {
                 user: user.rows[0],
                 tasks: tasks.rows
